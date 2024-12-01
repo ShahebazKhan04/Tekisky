@@ -77,7 +77,7 @@ studentSchema.pre("save", async function (next) {
 
 
 studentSchema.methods.generateToken = function () {
-  return jwt.sign({ _id: this._id }, process.env.SECRETE_KEY, {
+  return jwt.sign({ _id: this._id }, process.env.SECRET_KEY, {
     expiresIn: "10d",
   });
 };

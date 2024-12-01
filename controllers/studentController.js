@@ -3,7 +3,9 @@ import {
   loginStudentServices,
   updateStudentPasswordServices,
   updateStudentServices,
-  deleteStudentServices
+  deleteStudentServices,
+  getAllStudentsServices,
+  getSingleStudentServices,
 } from "../services/studentServices.js";
 
 export const createStudentController = async (req, res) => {
@@ -88,8 +90,8 @@ export const loginStudentController = async (req, res) => {
 export const updateStudentController = async (req, res) => {
   try {
     const id = req.params.id;
-    const { name, email, mobileNumber, address, educationDetails } = req.body;
-    if (!name || !email || !mobileNumber || !address || !educationDetails) {
+    const { name, mobileNumber, address, educationDetails } = req.body;
+    if (!name || !mobileNumber || !address || !educationDetails) {
       return res.status(404).json({
         success: false,
         message: "All fields are required",
@@ -97,7 +99,6 @@ export const updateStudentController = async (req, res) => {
     }
     const student = await updateStudentServices(id, {
       name,
-      email,
       mobileNumber,
       address,
       educationDetails,
@@ -165,17 +166,52 @@ export const updateStudentPasswordController = async (req, res) => {
 export const deleteStudentController = async (req, res) => {
   try {
     const id = req.params.id;
-    const student = await deleteStudentServices(id)
+    const student = await deleteStudentServices(id);
     res.status(200).json({
       success: true,
       message: "Student deleted successfully",
-      student: student.email,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
       message: "error while deleting student",
       error: error.message,
-    }); 
+    });
   }
-}
+};
+
+export const getAllStudentsController = async (req, res) => {
+  try {
+    const students = await getAllStudentsServices()
+    students.password = undefined
+    res.status(200).json({
+      success: true,
+      totalStudents: students.length,
+      student: students,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "error while getting all students",
+      error: error.message,
+    });
+  }
+};
+
+export const getSingleStudentController = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const student = await getSingleStudentServices(id);
+    student.password = undefined
+    res.status(200).json({
+      success: true,
+      student: student,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "error while getting single student",
+      error: error.message,
+    });
+  }
+};

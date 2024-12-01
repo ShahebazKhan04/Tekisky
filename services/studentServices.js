@@ -34,14 +34,13 @@ export const loginStudentServices = async (email) => {
 
 export const updateStudentServices = async (
   id,
-  { name, email, mobileNumber, address, educationDetails }
+  { name, mobileNumber, address, educationDetails }
 ) => {
   try {
     const student = await studentModel.findByIdAndUpdate(
       id,
       {
         name,
-        email,
         mobileNumber,
         address,
         educationDetails,
@@ -55,19 +54,37 @@ export const updateStudentServices = async (
 };
 
 export const updateStudentPasswordServices = async (id) => {
-    try {
-      const student = await studentModel.findById(id)
-      return student  
-    } catch (error) {
-        console.log("error while updating student in services" + error.message);
-    }
-}
+  try {
+    const student = await studentModel.findById(id);
+    return student;
+  } catch (error) {
+    console.log("error while updating student in services" + error.message);
+  }
+};
 
 export const deleteStudentServices = async (id) => {
-    try {
-      const student = await studentModel.findByIdAndDelete(id)
-      return student  
-    } catch (error) {
-        console.log("error while deleting student in services" + error.message);
-    }
-}
+  try {
+    const student = await studentModel.findByIdAndDelete(id);
+    return student;
+  } catch (error) {
+    console.log("error while deleting student in services" + error.message);
+  }
+};
+
+export const getAllStudentsServices = async () => {
+  try {
+    const students = await studentModel.find();
+    return students;
+  } catch (error) {
+    console.log("error while getting all students in services" + error.message);
+  }
+};
+
+export const getSingleStudentServices = async (id) => {
+  try {
+    const student = await studentModel.findById(id);
+    return student;
+  } catch (error) {
+    console.log("error while deleting student in services" + error.message);
+  }
+};
