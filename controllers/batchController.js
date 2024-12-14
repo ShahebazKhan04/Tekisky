@@ -1,9 +1,9 @@
 import batchModel from "../models/batchModel.js";
-import staffModel from "../models/staffModel.js";
 import {
   addStudentsToBatchServices,
   createBatchServices,
   deleteBatchServices,
+  deleteSingleStudentFromBatchServices,
   getAllBatchesServices,
   getSingleBatchServices,
   updatebatchServices,
@@ -256,10 +256,9 @@ export const deleteSingleStudentFromBatchController = async (req, res) => {
       });
     }
 
-    const batch = await batchModel.findByIdAndUpdate(
+    const batch = await deleteSingleStudentFromBatchServices(
       batchId,
       { $pull: { students: studentId } },
-      { new: true }
     );
 
     if (!batch) {

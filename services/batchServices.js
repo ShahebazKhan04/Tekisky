@@ -97,3 +97,15 @@ export const updatebatchServices = async (
     );
   }
 };
+
+export const deleteSingleStudentFromBatchServices = async (id) => {
+  try {
+    const batch = await batchModel.findByIdAndUpdate(
+      id,
+      { new: true }
+    );
+    return batch
+  } catch (error) {
+    "error in services while deleting students from batch" + error.message
+  }
+}
